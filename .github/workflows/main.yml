@@ -21,6 +21,11 @@ jobs:
       with:
         php-version: '8.2'
 
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11' # You can change this to any version you need
+
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
@@ -40,7 +45,6 @@ jobs:
       run: composer run-script test
 
     # Optional deployment step (replace with your actual deployment method)
-    # Example: Deploy using rsync over SSH
     # - name: Deploy to Production Server
     #   run: |
     #     rsync -avz --delete ./ user@your-server.com:/var/www/html/
