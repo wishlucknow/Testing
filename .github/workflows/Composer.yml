@@ -1,4 +1,4 @@
-name: PHP Composer
+name: PHP and Python Setup
 
 on:
   push:
@@ -10,11 +10,12 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  setup:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -25,31 +26,3 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
-
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
-      working-directory: ./your-directory
-
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: ./your-directory/vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
-
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
-      working-directory: ./your-directory
-
-    - name: Run test suite
-      run: composer run-script test
-      working-directory: ./your-directory
-
-    # Optional deployment step
-    # - name: Deploy to Production Server
-    #   run: |
-    #     rsync -avz --delete ./your-directory/ user@your-server.com:/var/www/html/
-    #   env:
-    #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
